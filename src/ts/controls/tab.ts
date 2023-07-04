@@ -14,6 +14,8 @@ export class Tab {
     /** @internal */
     private readonly _titleElement: HTMLSpanElement;
     /** @internal */
+    private readonly _moreOptionsElement: HTMLDivElement | undefined;
+    /** @internal */
     private readonly _closeElement: HTMLDivElement | undefined;
 
     /** @internal */
@@ -25,6 +27,12 @@ export class Tab {
     private readonly _tabClickListener = (ev: MouseEvent) => this.onTabClickDown(ev);
     /** @internal */
     private readonly _tabTouchStartListener = (ev: TouchEvent) => this.onTabTouchStart(ev);
+    /** @internal */
+    private readonly _moreOptionsClickListener = () => this.onMoreOptionsClick();
+    /** @internal */
+    private readonly _moreOptionsTouchStartListener = () => this.onMoreOptionsTouchStart();
+    // /** @internal */
+    // private readonly _moreOptionsMouseDownListener = () => this.onMoreOptionsMousedown();
     /** @internal */
     private readonly _closeClickListener = () => this.onCloseClick();
     /** @internal */
@@ -45,6 +53,7 @@ export class Tab {
     get contentItem(): ComponentItem { return this._componentItem; }
     get element(): HTMLElement { return this._element; }
     get titleElement(): HTMLElement { return this._titleElement; }
+    get moreOptionsElement(): HTMLElement | undefined { return this._moreOptionsElement; }
     get closeElement(): HTMLElement | undefined { return this._closeElement; }
     get reorderEnabled(): boolean { return this._dragListener !== undefined; }
     set reorderEnabled(value: boolean) {
@@ -64,6 +73,8 @@ export class Tab {
         /** @internal */
         private _componentItem: ComponentItem,
         /** @internal */
+        private _moreOptionsEvent: Tab.MoreOptionsEvent | undefined,
+        /** @internal */
         private _closeEvent: Tab.CloseEvent | undefined,
         /** @internal */
         private _focusEvent: Tab.FocusEvent | undefined,
@@ -74,11 +85,20 @@ export class Tab {
         this._element.classList.add(DomConstants.ClassName.Tab);
         this._titleElement = document.createElement('span'); 
         this._titleElement.classList.add(DomConstants.ClassName.Title);
+        this._moreOptionsElement = document.createElement('div'); 
+        this._moreOptionsElement.classList.add(DomConstants.ClassName.MoreOptionsTab);
         this._closeElement = document.createElement('div'); 
         this._closeElement.classList.add(DomConstants.ClassName.CloseTab);
         this._element.appendChild(this._titleElement);
+        this._element.appendChild(this._moreOptionsElement);
         this._element.appendChild(this._closeElement);
 
+        if (_componentItem.hasMoreOptions) {
+            this._moreOptionsElement.style.display = '';
+        } else {
+            this._moreOptionsElement.style.display = 'none';
+        }
+        
         if (_componentItem.isClosable) {
             this._closeElement.style.display = '';
         } else {
@@ -96,6 +116,15 @@ export class Tab {
 
         this._element.addEventListener('click', this._tabClickListener, { passive: true });
         this._element.addEventListener('touchstart', this._tabTouchStartListener, { passive: true });
+
+        if (this._componentItem.hasMoreOptions) {
+            this._moreOptionsElement.addEventListener('click', this._moreOptionsClickListener, { passive: true });
+            this._moreOptionsElement.addEventListener('touchstart', this._moreOptionsTouchStartListener, { passive: true });
+            // this._moreOptionsElement.addEventListener('mousedown', this._moreOptionsMouseDownListener, { passive: true });
+        } else {
+            this._moreOptionsElement.remove();
+            this._moreOptionsElement = undefined;
+        }
 
         if (this._componentItem.isClosable) {
             this._closeElement.addEventListener('click', this._closeClickListener, { passive: true });
@@ -142,11 +171,15 @@ export class Tab {
      * @internal
      */
     destroy(): void {
+        this._moreOptionsEvent = undefined;
         this._closeEvent = undefined;
         this._focusEvent = undefined;
         this._dragStartEvent = undefined;
         this._element.removeEventListener('click', this._tabClickListener);
         this._element.removeEventListener('touchstart', this._tabTouchStartListener);
+        this._moreOptionsElement?.removeEventListener('click', this._moreOptionsClickListener);
+        this._moreOptionsElement?.removeEventListener('touchstart', this._moreOptionsTouchStartListener);
+        // this._moreOptionsElement?.removeEventListener('mousedown', this._moreOptionsMouseDownListener);
         this._closeElement?.removeEventListener('click', this._closeClickListener);
         this._closeElement?.removeEventListener('touchstart', this._closeTouchStartListener);
         // this._closeElement?.removeEventListener('mousedown', this._closeMouseDownListener);
@@ -224,6 +257,28 @@ export class Tab {
     }
 
     /**
+     * Callback when the tab's more-options button is clicked
+     * @internal
+     */
+    private onMoreOptionsClick() {
+        this.notifyMoreOptions();
+    }
+
+    /** @internal */
+    private onMoreOptionsTouchStart() {
+        this.notifyMoreOptions();
+    }
+
+    /**
+     * Callback to capture tab more-options button mousedown
+     * to prevent tab from activating.
+     * @internal
+     */
+    // private onMoreOptionsMousedown(): void {
+    //     // event.stopPropagation();
+    // }
+
+    /**
      * Callback when the tab's close button is clicked
      * @internal
      */
@@ -244,6 +299,15 @@ export class Tab {
     // private onCloseMousedown(): void {
     //     // event.stopPropagation();
     // }
+
+    /** @internal */
+    private notifyMoreOptions() {
+        if (this._moreOptionsEvent === undefined) {
+            throw new UnexpectedUndefinedError('TNC15007');
+        } else {
+            this._moreOptionsEvent(this._componentItem);
+        }
+    }
 
     /** @internal */
     private notifyClose() {
@@ -284,6 +348,8 @@ export class Tab {
 
 /** @public */
 export namespace Tab {
+    /** @internal */
+    export type MoreOptionsEvent = (componentItem: ComponentItem) => void;
     /** @internal */
     export type CloseEvent = (componentItem: ComponentItem) => void;
     /** @internal */

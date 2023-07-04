@@ -177,6 +177,7 @@ export namespace EventEmitter {
     export interface EventParamsMap {
         "__all": UnknownParams;
         "activeContentItemChanged": ComponentItemParam;
+        "moreOptions": ComponentItemParam;
         "close": NoParams;
         "closed": NoParams;
         "destroy": NoParams;

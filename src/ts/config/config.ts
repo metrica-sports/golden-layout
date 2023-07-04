@@ -81,6 +81,12 @@ export interface ItemConfig {
     id?: string;
 
     /**
+     * Determines if the item has more-options button. If true, the ≡ on the items tab will be displayed
+     * Default: false
+     */
+    hasMoreOptions?: boolean;
+
+    /**
      * Determines if the item is closable. If false, the x on the items tab will be hidden and container.close()
      * will return false
      * Default: true
@@ -338,6 +344,7 @@ export namespace StackItemConfig {
             minSizeUnit,
             id,
             maximised,
+            hasMoreOptions: itemConfig.hasMoreOptions ?? ResolvedItemConfig.defaults.hasMoreOptions,
             isClosable: itemConfig.isClosable ?? ResolvedItemConfig.defaults.isClosable,
             activeItemIndex: itemConfig.activeItemIndex ?? ResolvedStackItemConfig.defaultActiveItemIndex,
             header: HeaderedItemConfig.Header.resolve(itemConfig.header, itemConfig.hasHeaders),
@@ -354,6 +361,7 @@ export namespace StackItemConfig {
             minSize: formatUndefinableSize(resolvedConfig.minSize, resolvedConfig.minSizeUnit),
             id: resolvedConfig.id,
             maximised: resolvedConfig.maximised,
+            hasMoreOptions: resolvedConfig.hasMoreOptions,
             isClosable: resolvedConfig.isClosable,
             activeItemIndex: resolvedConfig.activeItemIndex,
             header: ResolvedHeaderedItemConfig.Header.createCopy(resolvedConfig.header),
@@ -461,6 +469,7 @@ export namespace ComponentItemConfig {
                 minSizeUnit,
                 id,
                 maximised,
+                hasMoreOptions: itemConfig.hasMoreOptions ?? ResolvedItemConfig.defaults.hasMoreOptions,
                 isClosable: itemConfig.isClosable ?? ResolvedItemConfig.defaults.isClosable,
                 reorderEnabled: itemConfig.reorderEnabled ?? ResolvedComponentItemConfig.defaultReorderEnabled,
                 title,
@@ -480,6 +489,7 @@ export namespace ComponentItemConfig {
             minSize: formatUndefinableSize(resolvedConfig.minSize, resolvedConfig.minSizeUnit),
             id: resolvedConfig.id,
             maximised: resolvedConfig.maximised,
+            hasMoreOptions: resolvedConfig.hasMoreOptions,
             isClosable: resolvedConfig.isClosable,
             reorderEnabled: resolvedConfig.reorderEnabled,
             title: resolvedConfig.title,
@@ -539,6 +549,7 @@ export namespace RowOrColumnItemConfig {
             minSize,
             minSizeUnit,
             id: ItemConfig.resolveId(itemConfig.id),
+            hasMoreOptions: itemConfig.hasMoreOptions ?? ResolvedItemConfig.defaults.hasMoreOptions,
             isClosable: itemConfig.isClosable ?? ResolvedItemConfig.defaults.isClosable,
         }
         return result;
@@ -552,6 +563,7 @@ export namespace RowOrColumnItemConfig {
             size: formatSize(resolvedConfig.size, resolvedConfig.sizeUnit),
             minSize: formatUndefinableSize(resolvedConfig.minSize, resolvedConfig.minSizeUnit),
             id: resolvedConfig.id,
+            hasMoreOptions: resolvedConfig.hasMoreOptions,
             isClosable: resolvedConfig.isClosable,
         }
 

@@ -77,15 +77,33 @@
       padding-top: 1px;
     }
 
+    // More-Options Tab Icon
+    .lm_more_options_tab {
+      position: relative;
+      width: 11px;
+      height: 11px;
+      background-image: data-uri('../../img/lm_more_options_black.png');
+      background-position: center center;
+      background-repeat: no-repeat;
+      margin-left: 10px;
+      top: 1px;
+      opacity: 0.4;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
     // Close Tab Icon
     .lm_close_tab {
+      position: relative;
       width: 11px;
       height: 11px;
       background-image: data-uri('../../img/lm_close_black.png');
       background-position: center center;
       background-repeat: no-repeat;
-      top: 4px;
-      right: 6px;
+      margin-left: 10px;
+      top: 1px;
       opacity: 0.4;
 
       &:hover {
@@ -98,6 +116,10 @@
       border-bottom: none;
       box-shadow: 2px -2px 2px -2px fade(@color1,20%);
       padding-bottom: 5px;
+
+      .lm_more_options_tab {
+        opacity: 1;
+      }
 
       .lm_close_tab {
         opacity: 1;

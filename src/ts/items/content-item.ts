@@ -27,6 +27,8 @@ export abstract class ContentItem extends EventEmitter {
     /** @internal */
     private _contentItems: ContentItem[];
     /** @internal */
+    private _hasMoreOptions;
+    /** @internal */
     private _isClosable;
     /** @internal */
     private _pendingEventPropagations: Record<string, unknown>;
@@ -57,6 +59,7 @@ export abstract class ContentItem extends EventEmitter {
     get popInParentIds(): string[] { return this._popInParentIds; }
     get parent(): ContentItem | null { return this._parent; }
     get contentItems(): ContentItem[] { return this._contentItems; }
+    get hasMoreOptions(): boolean { return this._hasMoreOptions; }
     get isClosable(): boolean { return this._isClosable; }
     get element(): HTMLElement { return this._element; }
     get isInitialised(): boolean { return this._isInitialised; }
@@ -98,6 +101,7 @@ export abstract class ContentItem extends EventEmitter {
         this.minSize = config.minSize;
         this.minSizeUnit = config.minSizeUnit;
 
+        this._hasMoreOptions = config.hasMoreOptions;
         this._isClosable = config.isClosable;
 
         this._pendingEventPropagations = {};

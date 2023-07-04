@@ -109,6 +109,7 @@ export class Stack extends ComponentParentableItem {
 
         this._header = new Header(layoutManager,
             this, headerSettings,
+            config.hasMoreOptions,
             config.isClosable && close !== false,
             () => this.getActiveComponentItem(),
             () => this.remove(),
@@ -116,6 +117,7 @@ export class Stack extends ComponentParentableItem {
             () => this.toggleMaximise(),
             (ev) => this.handleHeaderClickEvent(ev),
             (ev) => this.handleHeaderTouchStartEvent(ev),
+            (item) => this.handleHeaderComponentMoreOptionsEvent(item),
             (item) => this.handleHeaderComponentRemoveEvent(item),
             (item) => this.handleHeaderComponentFocusEvent(item),
             (x, y, dragListener, item) => this.handleHeaderComponentStartDragEvent(x, y, dragListener, item),
@@ -226,6 +228,10 @@ export class Stack extends ComponentParentableItem {
         if (this.focused || focus) {
             this.layoutManager.setFocusedComponentItem(componentItem, suppressFocusEvent);
         }
+    }
+
+    showMoreOptions(componentItem: ComponentItem): void {
+        this.emit('moreOptions', componentItem);
     }
 
     /** @deprecated Use {@link (Stack:class).getActiveComponentItem} */
@@ -415,6 +421,7 @@ export class Stack extends ComponentParentableItem {
                 minSize: this.minSize,
                 minSizeUnit: this.minSizeUnit,
                 id: this.id,
+                hasMoreOptions: this.hasMoreOptions,
                 isClosable: this.isClosable,
                 maximised: this.isMaximised,
                 header: this.createHeaderConfig(),
@@ -900,6 +907,11 @@ export class Stack extends ComponentParentableItem {
         const eventName = EventEmitter.headerTouchStartEventName;
         const bubblingEvent = new EventEmitter.TouchStartBubblingEvent(eventName, this, ev);
         this.emit(eventName, bubblingEvent);
+    }
+
+    /** @internal */
+    private handleHeaderComponentMoreOptionsEvent(item: ComponentItem) {
+        this.showMoreOptions(item);
     }
 
     /** @internal */

@@ -36,6 +36,7 @@ export namespace ConfigMinifier {
         'width',
         'type',
         'height',
+        'hasMoreOptions',
         'isClosable',
         'title',
         'popoutWholeStack',

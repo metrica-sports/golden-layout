@@ -77,15 +77,33 @@
       padding-top:1px;
     }*/
 
+    // More-Options Tab Icon
+    .lm_more_options_tab {
+      position: relative;
+      width: 11px;
+      height: 11px;
+      background-image: data-uri('../../img/lm_more_options_white.png');
+      background-position: center center;
+      background-repeat: no-repeat;
+      margin-left: 10px;
+      top: 1px;
+      opacity: 0.4;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
     // Close Tab Icon
     .lm_close_tab {
+      position: relative;
       width: 11px;
       height: 11px;
       background-image: data-uri('../../img/lm_close_white.png');
       background-position: center center;
       background-repeat: no-repeat;
-      top: 4px;
-      right: 6px;
+      margin-left: 10px;
+      top: 1px;
       opacity: 0.4;
 
       &:hover {
@@ -95,8 +113,13 @@
 
     // If Tab is active, so if it's in foreground
     &.lm_active {
+      display: inline-flex;
       border-bottom: none;
       padding-bottom: 3px;
+
+      .lm_more_options_tab {
+        opacity: 1;
+      }
 
       .lm_close_tab {
         opacity: 1;
