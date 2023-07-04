@@ -298,6 +298,8 @@ export abstract class ContentItem extends EventEmitter {
     get element(): HTMLElement;
     // @internal
     getElementArea(element?: HTMLElement): ContentItem.Area | null;
+    // (undocumented)
+    get hasMoreOptions(): boolean;
     // @internal (undocumented)
     protected hide(): void;
     // @internal (undocumented)
@@ -517,6 +519,8 @@ export namespace EventEmitter {
         // (undocumented)
         "minimised": NoParams;
         // (undocumented)
+        "moreOptions": ComponentItemParam;
+        // (undocumented)
         "open": NoParams;
         // (undocumented)
         "popIn": NoParams;
@@ -667,12 +671,14 @@ export class Header extends EventEmitter {
     constructor(
     _layoutManager: LayoutManager,
     _parent: Stack, settings: Header.Settings,
+    _configMoreOptions: boolean,
     _configClosable: boolean,
     _getActiveComponentItemEvent: Header.GetActiveComponentItemEvent, closeEvent: Header.CloseEvent,
     _popoutEvent: Header.PopoutEvent | undefined,
     _maximiseToggleEvent: Header.MaximiseToggleEvent | undefined,
     _clickEvent: Header.ClickEvent | undefined,
     _touchStartEvent: Header.TouchStartEvent | undefined,
+    _componentMoreOptionsEvent: Header.ComponentMoreOptionsEvent | undefined,
     _componentRemoveEvent: Header.ComponentRemoveEvent | undefined,
     _componentFocusEvent: Header.ComponentFocusEvent | undefined,
     _componentDragStartEvent: Header.ComponentDragStartEvent | undefined);
@@ -732,6 +738,8 @@ export namespace Header {
     export type ComponentDragStartEvent = (this: void, x: number, y: number, dragListener: DragListener, componentItem: ComponentItem) => void;
     // @internal (undocumented)
     export type ComponentFocusEvent = (this: void, componentItem: ComponentItem) => void;
+    // @internal (undocumented)
+    export type ComponentMoreOptionsEvent = (this: void, componentItem: ComponentItem) => void;
     // @internal (undocumented)
     export type ComponentRemoveEvent = (this: void, componentItem: ComponentItem) => void;
     // @internal (undocumented)
@@ -852,6 +860,7 @@ export const i18nStrings: string[];
 // @public (undocumented)
 export interface ItemConfig {
     content?: ItemConfig[];
+    hasMoreOptions?: boolean;
     // @deprecated
     height?: number;
     id?: string;
@@ -967,6 +976,7 @@ export namespace LayoutConfig {
         borderWidth?: number;
         defaultMinItemHeight?: string;
         defaultMinItemWidth?: string;
+        dragOffset?: number;
         dragProxyHeight?: number;
         dragProxyWidth?: number;
         headerHeight?: number;
@@ -1371,6 +1381,8 @@ export namespace ResolvedComponentItemConfig {
 // @internal (undocumented)
 export interface ResolvedGroundItemConfig extends ResolvedItemConfig {
     // (undocumented)
+    readonly hasMoreOptions: false;
+    // (undocumented)
     readonly id: '';
     // (undocumented)
     readonly isClosable: false;
@@ -1434,6 +1446,8 @@ export namespace ResolvedHeaderedItemConfig {
 export interface ResolvedItemConfig {
     // (undocumented)
     readonly content: readonly ResolvedItemConfig[];
+    // (undocumented)
+    readonly hasMoreOptions: boolean;
     // (undocumented)
     readonly id: string;
     // (undocumented)
@@ -1503,6 +1517,8 @@ export namespace ResolvedLayoutConfig {
         readonly defaultMinItemWidth: number;
         // (undocumented)
         readonly defaultMinItemWidthUnit: SizeUnitEnum;
+        // (undocumented)
+        readonly dragOffset: number;
         // (undocumented)
         readonly dragProxyHeight: number;
         // (undocumented)
@@ -1869,6 +1885,8 @@ export class Stack extends ComponentParentableItem {
     // @internal (undocumented)
     setRowColumnClosable(value: boolean): void;
     // (undocumented)
+    showMoreOptions(componentItem: ComponentItem): void;
+    // (undocumented)
     get stackParent(): ContentItem;
     // (undocumented)
     toConfig(): ResolvedStackItemConfig;
@@ -1942,6 +1960,7 @@ export class Tab {
     constructor(
     _layoutManager: LayoutManager,
     _componentItem: ComponentItem,
+    _moreOptionsEvent: Tab.MoreOptionsEvent | undefined,
     _closeEvent: Tab.CloseEvent | undefined,
     _focusEvent: Tab.FocusEvent | undefined,
     _dragStartEvent: Tab.DragStartEvent | undefined);
@@ -1957,6 +1976,8 @@ export class Tab {
     get element(): HTMLElement;
     // (undocumented)
     get isActive(): boolean;
+    // (undocumented)
+    get moreOptionsElement(): HTMLElement | undefined;
     // (undocumented)
     get reorderEnabled(): boolean;
     set reorderEnabled(value: boolean);
@@ -1978,6 +1999,8 @@ export namespace Tab {
     export type DragStartEvent = (x: number, y: number, dragListener: DragListener, componentItem: ComponentItem) => void;
     // @internal (undocumented)
     export type FocusEvent = (componentItem: ComponentItem) => void;
+    // @internal (undocumented)
+    export type MoreOptionsEvent = (componentItem: ComponentItem) => void;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "UndefinableSizeWithUnit" should be prefixed with an underscore because the declaration is marked as @internal

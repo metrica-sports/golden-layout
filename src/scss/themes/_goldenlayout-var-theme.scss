@@ -100,7 +100,7 @@ $focusedTabBkgdColor: var(--color-layout-focused-tab-bkgd, #354be3); // Appears 
             background-position: center center;
             background-repeat: no-repeat;
             margin-left: 10px;
-            top: 1px;
+            top: -1px;
             opacity: 0.4;
 
             &:hover {
@@ -117,7 +117,7 @@ $focusedTabBkgdColor: var(--color-layout-focused-tab-bkgd, #354be3); // Appears 
             background-position: center center;
             background-repeat: no-repeat;
             margin-left: 10px;
-            top: 1px;
+            top: -1px;
             opacity: 0.4;
 
             &:hover {
