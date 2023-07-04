@@ -200,7 +200,7 @@ export class GroundItem extends ComponentParentableItem {
     }
 
     createSideAreas(): GroundItem.Area[] {
-        const areaSize = 50;
+        const areaSize = 20;
 
         const oppositeSides = GroundItem.Area.oppositeSides;
         const result = new Array<GroundItem.Area>(Object.keys(oppositeSides).length);

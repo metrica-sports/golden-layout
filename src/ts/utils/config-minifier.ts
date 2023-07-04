@@ -23,6 +23,7 @@ export namespace ConfigMinifier {
         'headerHeight',
         'dragProxyWidth',
         'dragProxyHeight',
+        'dragOffset',
         'labels',
         'close',
         'maximise',

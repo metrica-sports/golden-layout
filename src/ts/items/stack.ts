@@ -545,7 +545,13 @@ export class Stack extends ComponentParentableItem {
             const segment = key as Stack.Segment;
             const area = this._contentAreaDimensions[segment].hoverArea;
 
-            if (area.x1 < x && area.x2 > x && area.y1 < y && area.y2 > y) {
+            if (
+                area.x1 < x && area.x2 > x && 
+                (
+                    (area.y1 < y && area.y2 > y) ||
+                    (area.y1 === area.y2 && Math.abs(area.y1 - y) <= this.layoutManager.layoutConfig.dimensions.dragOffset)
+                )
+            ) {
 
                 if (segment === Stack.Segment.Header) {
                     this._dropSegment = Stack.Segment.Header;
