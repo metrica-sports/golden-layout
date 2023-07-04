@@ -377,7 +377,8 @@ export class Header extends EventEmitter {
 
     /** @internal */
     private handleTabInitiatedDragStartEvent(x: number, y: number, dragListener: DragListener, componentItem: ComponentItem) {
-        if (!this._canRemoveComponent) {
+        // No reason to not allow dragging if the component is not closable
+        if (false && !this._canRemoveComponent) {
             dragListener.cancelDrag();
         } else {
             if (this._componentDragStartEvent === undefined) {

@@ -78,6 +78,7 @@ $focusedTabBkgdColor: var(--color-layout-focused-tab-bkgd, #354be3); // Appears 
 
     // Single Tab container. A single Tab is set for each pane, a group of Tabs are contained in ".lm_header"
     .lm_tab {
+        display: inline-flex;
         font-size: 12px;
         color: $singleTabContainerForeColor;
         background: $singleTablContainerBkgdColor;
@@ -126,7 +127,6 @@ $focusedTabBkgdColor: var(--color-layout-focused-tab-bkgd, #354be3); // Appears 
 
         // If Tab is active, so if it's in foreground
         &.lm_active {
-            display: inline-flex;
             border-bottom: none;
             padding-bottom: 3px;
 
