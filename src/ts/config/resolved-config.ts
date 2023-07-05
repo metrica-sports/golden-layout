@@ -14,6 +14,7 @@ export interface ResolvedItemConfig {
     readonly minSizeUnit: SizeUnitEnum;
     // id no longer specifies whether an Item is maximised.  This is now done by HeaderItemConfig.maximised
     readonly id: string;
+    readonly hasMoreOptions: boolean;
     readonly isClosable: boolean;
 }
 
@@ -27,6 +28,7 @@ export namespace ResolvedItemConfig {
         minSize: undefined,
         minSizeUnit: SizeUnitEnum.Pixel,
         id: '',
+        hasMoreOptions: false,
         isClosable: true,
     } as const;
 
@@ -144,6 +146,7 @@ export namespace ResolvedStackItemConfig {
             minSizeUnit: original.minSizeUnit,
             id: original.id,
             maximised: original.maximised,
+            hasMoreOptions: original.hasMoreOptions,
             isClosable: original.isClosable,
             activeItemIndex: original.activeItemIndex,
             header: ResolvedHeaderedItemConfig.Header.createCopy(original.header),
@@ -170,6 +173,7 @@ export namespace ResolvedStackItemConfig {
             minSizeUnit: ResolvedItemConfig.defaults.minSizeUnit,
             id: ResolvedItemConfig.defaults.id,
             maximised: ResolvedHeaderedItemConfig.defaultMaximised,
+            hasMoreOptions: ResolvedItemConfig.defaults.hasMoreOptions,
             isClosable: ResolvedItemConfig.defaults.isClosable,
             activeItemIndex: defaultActiveItemIndex,
             header: undefined,
@@ -215,6 +219,7 @@ export namespace ResolvedComponentItemConfig {
             minSizeUnit: original.minSizeUnit,
             id: original.id,
             maximised: original.maximised,
+            hasMoreOptions: original.hasMoreOptions,
             isClosable: original.isClosable,
             reorderEnabled: original.reorderEnabled,
             title: original.title,
@@ -235,6 +240,7 @@ export namespace ResolvedComponentItemConfig {
             minSizeUnit: ResolvedItemConfig.defaults.minSizeUnit,
             id: ResolvedItemConfig.defaults.id,
             maximised: ResolvedHeaderedItemConfig.defaultMaximised,
+            hasMoreOptions: ResolvedItemConfig.defaults.hasMoreOptions,
             isClosable: ResolvedItemConfig.defaults.isClosable,
             reorderEnabled: ResolvedComponentItemConfig.defaultReorderEnabled,
             title,
@@ -288,6 +294,7 @@ export namespace ResolvedRowOrColumnItemConfig {
             minSize: original.minSize,
             minSizeUnit: original.minSizeUnit,
             id: original.id,
+            hasMoreOptions: original.hasMoreOptions,
             isClosable: original.isClosable,
         }
         return result;
@@ -311,6 +318,7 @@ export namespace ResolvedRowOrColumnItemConfig {
             minSize: ResolvedItemConfig.defaults.minSize,
             minSizeUnit: ResolvedItemConfig.defaults.minSizeUnit,
             id: ResolvedItemConfig.defaults.id,
+            hasMoreOptions: ResolvedItemConfig.defaults.hasMoreOptions,
             isClosable: ResolvedItemConfig.defaults.isClosable,
         }
         return result;
@@ -355,6 +363,7 @@ export interface ResolvedGroundItemConfig extends ResolvedItemConfig {
     readonly minSize: 0,
     readonly minSizeUnit: SizeUnitEnum.Pixel,
     readonly id: '',
+    readonly hasMoreOptions: false,
     readonly isClosable: false,
     readonly title: '',
     readonly reorderEnabled: false,
@@ -372,6 +381,7 @@ export namespace ResolvedGroundItemConfig {
             minSize: 0,
             minSizeUnit: SizeUnitEnum.Pixel,
             id: '',
+            hasMoreOptions: false,
             isClosable: false,
             title: '',
             reorderEnabled: false,
@@ -447,6 +457,7 @@ export namespace ResolvedLayoutConfig {
         readonly headerHeight: number;
         readonly dragProxyWidth: number;
         readonly dragProxyHeight: number;
+        readonly dragOffset: number;
     }
 
     export namespace Dimensions {
@@ -461,6 +472,7 @@ export namespace ResolvedLayoutConfig {
                 headerHeight: original.headerHeight,
                 dragProxyWidth: original.dragProxyWidth,
                 dragProxyHeight: original.dragProxyHeight,
+                dragOffset: original.dragOffset,
             }
         }
 
@@ -473,7 +485,8 @@ export namespace ResolvedLayoutConfig {
             defaultMinItemWidthUnit: SizeUnitEnum.Pixel,
             headerHeight: 20,
             dragProxyWidth: 300,
-            dragProxyHeight: 200
+            dragProxyHeight: 200,
+            dragOffset: 30
         } as const;
     }
 

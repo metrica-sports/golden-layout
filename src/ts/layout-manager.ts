@@ -734,6 +734,7 @@ export abstract class LayoutManager extends EventEmitter {
                 minSizeUnit: config.minSizeUnit,
                 id: config.id,
                 maximised: config.maximised,
+                hasMoreOptions: config.hasMoreOptions,
                 isClosable: config.isClosable,
                 activeItemIndex: 0,
                 header: undefined,

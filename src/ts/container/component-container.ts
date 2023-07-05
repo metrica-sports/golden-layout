@@ -203,8 +203,8 @@ export class ComponentContainer extends EventEmitter {
      * both the component within at as well as the contentItem containing
      * it. Emits a close event before the container itself is closed.
      */
-    close(): void {
-        if (this._isClosable) {
+    close(force?: boolean): void {
+        if (this._isClosable || force) {
             this.emit('close');
             this._parent.close();
         }

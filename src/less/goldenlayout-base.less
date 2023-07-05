@@ -121,11 +121,12 @@
   // Single Tab container. A single Tab is set for each pane, a group of Tabs are contained in ".lm_header"
   .lm_tab {
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
     float: left;
     height: @height2;
     margin-top: 1px;
     padding: 0px 10px 5px;
-    padding-right: 25px;
     position: relative;
     touch-action: none;
 
@@ -149,6 +150,16 @@
       display: inline-block;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    // More-Options Tab Icon
+    .lm_more_options_tab {
+      width: @width3;
+      height: @height2;
+      position: absolute;
+      top: 0;
+      right: 0;
+      text-align: center;
     }
 
     // Close Tab Icon
@@ -339,6 +350,10 @@
       .lm_title {
         width: 100px;
       }
+    }
+
+    .lm_more_options_tab {
+      display: none !important;
     }
 
     .lm_close_tab {

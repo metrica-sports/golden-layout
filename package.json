@@ -1,7 +1,23 @@
 {
-  "name": "golden-layout",
-  "version": "2.6.0",
+  "name": "@metrica-sports/golden-layout",
+  "version": "1.0.0",
   "description": "A multi-screen javascript Layout manager",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metrica-sports/golden-layout.git"
+  },
+  "homepage": "https://github.com/golden-layout/golden-layout",
+  "versionForked": "2.6.0",
+  "repositoryForked": {
+    "type": "git",
+    "url": "https://github.com/golden-layout/golden-layout.git"
+  },
+   "bugs": {
+    "url": "https://github.com/golden-layout/golden-layout/issues"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "keywords": [
     "docking",
     "javascript",
@@ -10,14 +26,6 @@
     "layout manager",
     "popouts"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/golden-layout/golden-layout.git"
-  },
-  "homepage": "https://github.com/golden-layout/golden-layout",
-  "bugs": {
-    "url": "https://github.com/golden-layout/golden-layout/issues"
-  },
   "license": "MIT",
   "author": "Golden Layout community",
   "main": "dist/cjs/index.js",

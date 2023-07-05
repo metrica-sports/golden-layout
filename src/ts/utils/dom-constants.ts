@@ -16,6 +16,7 @@ export namespace DomConstants {
         Header = 'lm_header',
         Tabs = 'lm_tabs',
         Tab = 'lm_tab',
+        MoreOptionsTab = 'lm_more_options_tab',
         CloseTab = 'lm_close_tab',
         Controls = 'lm_controls',
         TabDropdown = 'lm_tabdropdown',

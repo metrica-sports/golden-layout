@@ -59,6 +59,8 @@ export class Header extends EventEmitter {
     /** @internal */
     private _rowColumnClosable = true;
     /** @internal */
+    private _canMoreOptionsComponent: boolean;
+    /** @internal */
     private _canRemoveComponent: boolean;
     /** @internal */
     private _side: Side;
@@ -96,6 +98,8 @@ export class Header extends EventEmitter {
         private _parent: Stack,
         settings: Header.Settings,
         /** @internal */
+        private readonly _configMoreOptions: boolean,
+        /** @internal */
         private readonly _configClosable: boolean,
         /** @internal */
         private _getActiveComponentItemEvent: Header.GetActiveComponentItemEvent,
@@ -109,6 +113,8 @@ export class Header extends EventEmitter {
         /** @internal */
         private _touchStartEvent: Header.TouchStartEvent | undefined,
         /** @internal */
+        private _componentMoreOptionsEvent: Header.ComponentMoreOptionsEvent | undefined,
+        /** @internal */
         private _componentRemoveEvent: Header.ComponentRemoveEvent | undefined,
         /** @internal */
         private _componentFocusEvent: Header.ComponentFocusEvent | undefined,
@@ -118,6 +124,7 @@ export class Header extends EventEmitter {
         super();
 
         this._tabsContainer = new TabsContainer(this._layoutManager,
+            (event, item) => this.handleTabInitiatedComponentMoreOptionsEvent(event, item),
             (item) => this.handleTabInitiatedComponentRemoveEvent(item),
             (item) => this.handleTabInitiatedComponentFocusEvent(item),
             (x, y, dragListener, item) => this.handleTabInitiatedDragStartEvent(x, y, dragListener, item),
@@ -137,6 +144,7 @@ export class Header extends EventEmitter {
         this._tabDropdownLabel = settings.tabDropdownLabel;
         this.setSide(settings.side);
 
+        this._canMoreOptionsComponent = this._configMoreOptions;
         this._canRemoveComponent = this._configClosable;
 
         this._element = document.createElement('section');
@@ -337,6 +345,17 @@ export class Header extends EventEmitter {
     }
 
     /** @internal */
+    private handleTabInitiatedComponentMoreOptionsEvent(event: MouseEvent | TouchEvent, componentItem: ComponentItem) {
+        if (this._canMoreOptionsComponent) {
+            if (this._componentMoreOptionsEvent === undefined) {
+                throw new UnexpectedUndefinedError('HHTCE22294');
+            } else {
+                this._componentMoreOptionsEvent(event, componentItem);
+            }
+        }
+    }
+
+    /** @internal */
     private handleTabInitiatedComponentRemoveEvent(componentItem: ComponentItem) {
         if (this._canRemoveComponent) {
             if (this._componentRemoveEvent === undefined) {
@@ -358,7 +377,8 @@ export class Header extends EventEmitter {
 
     /** @internal */
     private handleTabInitiatedDragStartEvent(x: number, y: number, dragListener: DragListener, componentItem: ComponentItem) {
-        if (!this._canRemoveComponent) {
+        // No reason to not allow dragging if the component is not closable
+        if (false && !this._canRemoveComponent) {
             dragListener.cancelDrag();
         } else {
             if (this._componentDragStartEvent === undefined) {
@@ -456,6 +476,8 @@ export namespace Header {
     export type ClickEvent = (this: void, ev: MouseEvent) => void;
     /** @internal */
     export type TouchStartEvent = (this: void, ev: TouchEvent) => void;
+    /** @internal */
+    export type ComponentMoreOptionsEvent = (this: void, event: MouseEvent | TouchEvent, componentItem: ComponentItem) => void;
     /** @internal */
     export type ComponentRemoveEvent = (this: void, componentItem: ComponentItem) => void;
     /** @internal */

@@ -108,7 +108,9 @@ export class Stack extends ComponentParentableItem {
         };
 
         this._header = new Header(layoutManager,
-            this, headerSettings,
+            this,
+            headerSettings,
+            config.hasMoreOptions,
             config.isClosable && close !== false,
             () => this.getActiveComponentItem(),
             () => this.remove(),
@@ -116,6 +118,7 @@ export class Stack extends ComponentParentableItem {
             () => this.toggleMaximise(),
             (ev) => this.handleHeaderClickEvent(ev),
             (ev) => this.handleHeaderTouchStartEvent(ev),
+            (ev, item) => this.handleHeaderComponentMoreOptionsEvent(ev, item),
             (item) => this.handleHeaderComponentRemoveEvent(item),
             (item) => this.handleHeaderComponentFocusEvent(item),
             (x, y, dragListener, item) => this.handleHeaderComponentStartDragEvent(x, y, dragListener, item),
@@ -226,6 +229,11 @@ export class Stack extends ComponentParentableItem {
         if (this.focused || focus) {
             this.layoutManager.setFocusedComponentItem(componentItem, suppressFocusEvent);
         }
+    }
+
+    showMoreOptions(event: MouseEvent | TouchEvent, componentItem: ComponentItem): void {
+        this.emit('moreOptions', event, componentItem);
+        this.layoutManager.emit('moreOptions', event, componentItem);
     }
 
     /** @deprecated Use {@link (Stack:class).getActiveComponentItem} */
@@ -415,6 +423,7 @@ export class Stack extends ComponentParentableItem {
                 minSize: this.minSize,
                 minSizeUnit: this.minSizeUnit,
                 id: this.id,
+                hasMoreOptions: this.hasMoreOptions,
                 isClosable: this.isClosable,
                 maximised: this.isMaximised,
                 header: this.createHeaderConfig(),
@@ -545,7 +554,13 @@ export class Stack extends ComponentParentableItem {
             const segment = key as Stack.Segment;
             const area = this._contentAreaDimensions[segment].hoverArea;
 
-            if (area.x1 < x && area.x2 > x && area.y1 < y && area.y2 > y) {
+            if (
+                area.x1 < x && area.x2 > x && 
+                (
+                    (area.y1 < y && area.y2 > y) ||
+                    (area.y1 === area.y2 && Math.abs(area.y1 - y) <= this.layoutManager.layoutConfig.dimensions.dragOffset)
+                )
+            ) {
 
                 if (segment === Stack.Segment.Header) {
                     this._dropSegment = Stack.Segment.Header;
@@ -894,6 +909,11 @@ export class Stack extends ComponentParentableItem {
         const eventName = EventEmitter.headerTouchStartEventName;
         const bubblingEvent = new EventEmitter.TouchStartBubblingEvent(eventName, this, ev);
         this.emit(eventName, bubblingEvent);
+    }
+
+    /** @internal */
+    private handleHeaderComponentMoreOptionsEvent(ev: MouseEvent | TouchEvent, item: ComponentItem) {
+        this.showMoreOptions(ev, item);
     }
 
     /** @internal */

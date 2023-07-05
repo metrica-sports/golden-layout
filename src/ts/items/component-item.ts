@@ -94,6 +94,7 @@ export class ComponentItem extends ContentItem {
             minSizeUnit: this.minSizeUnit,
             id: this.id,
             maximised: false,
+            hasMoreOptions: this.hasMoreOptions,
             isClosable: this.isClosable,
             reorderEnabled: this._reorderEnabled,
             title: this._title,

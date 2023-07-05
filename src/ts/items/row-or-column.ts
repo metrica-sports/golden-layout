@@ -262,6 +262,7 @@ export class RowOrColumn extends ContentItem {
             minSize: this.minSize,
             minSizeUnit: this.minSizeUnit,
             id: this.id,
+            hasMoreOptions: this.hasMoreOptions,
             isClosable: this.isClosable,
         }
         return result;

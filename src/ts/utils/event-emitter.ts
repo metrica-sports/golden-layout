@@ -177,6 +177,7 @@ export namespace EventEmitter {
     export interface EventParamsMap {
         "__all": UnknownParams;
         "activeContentItemChanged": ComponentItemParam;
+        "moreOptions": MoreOptionsParams;
         "close": NoParams;
         "closed": NoParams;
         "destroy": NoParams;
@@ -219,6 +220,7 @@ export namespace EventEmitter {
     export type TabParam = [Tab];
     export type BubblingEventParam = [EventEmitter.BubblingEvent]
     export type StringParam = [string];
+    export type MoreOptionsParams = [MouseEvent | TouchEvent, ComponentItem]
     export type DragStartParams = [originalX: number, originalY: number];
     export type DragStopParams = [event: PointerEvent | undefined];
     export type DragParams = [offsetX: number, offsetY: number, event: PointerEvent];
