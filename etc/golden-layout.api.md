@@ -61,7 +61,7 @@ export class ComponentContainer extends EventEmitter {
     _focusEvent: ComponentContainer.FocusEventHandler,
     _blurEvent: ComponentContainer.BlurEventHandler);
     blur(suppressEvent?: boolean): void;
-    close(): void;
+    close(force?: boolean): void;
     // (undocumented)
     get component(): ComponentContainer.Component;
     // @internal @deprecated (undocumented)
@@ -519,7 +519,7 @@ export namespace EventEmitter {
         // (undocumented)
         "minimised": NoParams;
         // (undocumented)
-        "moreOptions": ComponentItemParam;
+        "moreOptions": MoreOptionsParams;
         // (undocumented)
         "open": NoParams;
         // (undocumented)
@@ -549,6 +549,8 @@ export namespace EventEmitter {
         // (undocumented)
         "windowOpened": PopoutParam;
     }
+    // (undocumented)
+    export type MoreOptionsParams = [MouseEvent | TouchEvent, ComponentItem];
     // (undocumented)
     export type NoParams = [];
     // (undocumented)
@@ -739,7 +741,7 @@ export namespace Header {
     // @internal (undocumented)
     export type ComponentFocusEvent = (this: void, componentItem: ComponentItem) => void;
     // @internal (undocumented)
-    export type ComponentMoreOptionsEvent = (this: void, componentItem: ComponentItem) => void;
+    export type ComponentMoreOptionsEvent = (this: void, event: MouseEvent | TouchEvent, componentItem: ComponentItem) => void;
     // @internal (undocumented)
     export type ComponentRemoveEvent = (this: void, componentItem: ComponentItem) => void;
     // @internal (undocumented)
@@ -1885,7 +1887,7 @@ export class Stack extends ComponentParentableItem {
     // @internal (undocumented)
     setRowColumnClosable(value: boolean): void;
     // (undocumented)
-    showMoreOptions(componentItem: ComponentItem): void;
+    showMoreOptions(event: MouseEvent | TouchEvent, componentItem: ComponentItem): void;
     // (undocumented)
     get stackParent(): ContentItem;
     // (undocumented)
@@ -2000,7 +2002,7 @@ export namespace Tab {
     // @internal (undocumented)
     export type FocusEvent = (componentItem: ComponentItem) => void;
     // @internal (undocumented)
-    export type MoreOptionsEvent = (componentItem: ComponentItem) => void;
+    export type MoreOptionsEvent = (event: MouseEvent | TouchEvent, componentItem: ComponentItem) => void;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "UndefinableSizeWithUnit" should be prefixed with an underscore because the declaration is marked as @internal

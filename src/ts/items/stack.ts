@@ -108,7 +108,8 @@ export class Stack extends ComponentParentableItem {
         };
 
         this._header = new Header(layoutManager,
-            this, headerSettings,
+            this,
+            headerSettings,
             config.hasMoreOptions,
             config.isClosable && close !== false,
             () => this.getActiveComponentItem(),
@@ -117,7 +118,7 @@ export class Stack extends ComponentParentableItem {
             () => this.toggleMaximise(),
             (ev) => this.handleHeaderClickEvent(ev),
             (ev) => this.handleHeaderTouchStartEvent(ev),
-            (item) => this.handleHeaderComponentMoreOptionsEvent(item),
+            (ev, item) => this.handleHeaderComponentMoreOptionsEvent(ev, item),
             (item) => this.handleHeaderComponentRemoveEvent(item),
             (item) => this.handleHeaderComponentFocusEvent(item),
             (x, y, dragListener, item) => this.handleHeaderComponentStartDragEvent(x, y, dragListener, item),
@@ -230,8 +231,9 @@ export class Stack extends ComponentParentableItem {
         }
     }
 
-    showMoreOptions(componentItem: ComponentItem): void {
-        this.emit('moreOptions', componentItem);
+    showMoreOptions(event: MouseEvent | TouchEvent, componentItem: ComponentItem): void {
+        this.emit('moreOptions', event, componentItem);
+        this.layoutManager.emit('moreOptions', event, componentItem);
     }
 
     /** @deprecated Use {@link (Stack:class).getActiveComponentItem} */
@@ -910,8 +912,8 @@ export class Stack extends ComponentParentableItem {
     }
 
     /** @internal */
-    private handleHeaderComponentMoreOptionsEvent(item: ComponentItem) {
-        this.showMoreOptions(item);
+    private handleHeaderComponentMoreOptionsEvent(ev: MouseEvent | TouchEvent, item: ComponentItem) {
+        this.showMoreOptions(ev, item);
     }
 
     /** @internal */

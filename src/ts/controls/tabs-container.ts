@@ -60,7 +60,7 @@ export class TabsContainer {
 
         const tab = new Tab(this._layoutManager,
             componentItem,
-            (item) => this.handleTabMoreOptionsEvent(item),
+            (event, item) => this.handleTabMoreOptionsEvent(event, item),
             (item) => this.handleTabCloseEvent(item),
             (item) => this.handleTabFocusEvent(item),
             (x, y, dragListener, item) => this.handleTabDragStartEvent(x, y, dragListener, item));
@@ -260,8 +260,8 @@ export class TabsContainer {
         this._dropdownElement.style.display = 'none';
     }
 
-    private handleTabMoreOptionsEvent(componentItem: ComponentItem) {
-        this._componentMoreOptionsEvent(componentItem);
+    private handleTabMoreOptionsEvent(event: MouseEvent | TouchEvent, componentItem: ComponentItem) {
+        this._componentMoreOptionsEvent(event, componentItem);
     }
     
     private handleTabCloseEvent(componentItem: ComponentItem) {
@@ -280,7 +280,7 @@ export class TabsContainer {
 
 /** @internal */
 export namespace TabsContainer {
-    export type ComponentItemMoreOptionsEvent = (this: void, componentItem: ComponentItem) => void;
+    export type ComponentItemMoreOptionsEvent = (this: void, event: MouseEvent | TouchEvent, componentItem: ComponentItem) => void;
     export type ComponentItemRemoveEvent = (this: void, componentItem: ComponentItem) => void;
     export type ComponentItemFocusEvent = (this: void, componentItem: ComponentItem) => void;
     export type ComponentItemDragStartEvent = (this: void, x: number, y: number, dragListener: DragListener, componentItem: ComponentItem) => void;

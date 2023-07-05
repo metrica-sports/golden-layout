@@ -28,9 +28,11 @@ export class Tab {
     /** @internal */
     private readonly _tabTouchStartListener = (ev: TouchEvent) => this.onTabTouchStart(ev);
     /** @internal */
-    private readonly _moreOptionsClickListener = () => this.onMoreOptionsClick();
+    private readonly _tabContextMenuListener = (ev: MouseEvent) => this.onTabContextMenu(ev);
     /** @internal */
-    private readonly _moreOptionsTouchStartListener = () => this.onMoreOptionsTouchStart();
+    private readonly _moreOptionsClickListener = (ev: MouseEvent) => this.onMoreOptionsClick(ev);
+    /** @internal */
+    private readonly _moreOptionsTouchStartListener = (ev: TouchEvent) => this.onMoreOptionsTouchStart(ev);
     // /** @internal */
     // private readonly _moreOptionsMouseDownListener = () => this.onMoreOptionsMousedown();
     /** @internal */
@@ -116,6 +118,7 @@ export class Tab {
 
         this._element.addEventListener('click', this._tabClickListener, { passive: true });
         this._element.addEventListener('touchstart', this._tabTouchStartListener, { passive: true });
+        this._element.addEventListener('contextmenu', this._tabContextMenuListener, { passive: true });
 
         if (this._componentItem.hasMoreOptions) {
             this._moreOptionsElement.addEventListener('click', this._moreOptionsClickListener, { passive: true });
@@ -177,6 +180,7 @@ export class Tab {
         this._dragStartEvent = undefined;
         this._element.removeEventListener('click', this._tabClickListener);
         this._element.removeEventListener('touchstart', this._tabTouchStartListener);
+        this._element.removeEventListener('contextmenu', this._tabContextMenuListener);
         this._moreOptionsElement?.removeEventListener('click', this._moreOptionsClickListener);
         this._moreOptionsElement?.removeEventListener('touchstart', this._moreOptionsTouchStartListener);
         // this._moreOptionsElement?.removeEventListener('mousedown', this._moreOptionsMouseDownListener);
@@ -256,17 +260,22 @@ export class Tab {
         }
     }
 
+    /** @internal */
+    private onTabContextMenu(event: MouseEvent) {
+        this.notifyMoreOptions(event);
+    }
+
     /**
      * Callback when the tab's more-options button is clicked
      * @internal
      */
-    private onMoreOptionsClick() {
-        this.notifyMoreOptions();
+    private onMoreOptionsClick(event: MouseEvent) {
+        this.notifyMoreOptions(event);
     }
 
     /** @internal */
-    private onMoreOptionsTouchStart() {
-        this.notifyMoreOptions();
+    private onMoreOptionsTouchStart(event: TouchEvent) {
+        this.notifyMoreOptions(event);
     }
 
     /**
@@ -301,11 +310,11 @@ export class Tab {
     // }
 
     /** @internal */
-    private notifyMoreOptions() {
+    private notifyMoreOptions(event: MouseEvent | TouchEvent) {
         if (this._moreOptionsEvent === undefined) {
             throw new UnexpectedUndefinedError('TNC15007');
         } else {
-            this._moreOptionsEvent(this._componentItem);
+            this._moreOptionsEvent(event, this._componentItem);
         }
     }
 
@@ -349,7 +358,7 @@ export class Tab {
 /** @public */
 export namespace Tab {
     /** @internal */
-    export type MoreOptionsEvent = (componentItem: ComponentItem) => void;
+    export type MoreOptionsEvent = (event: MouseEvent | TouchEvent, componentItem: ComponentItem) => void;
     /** @internal */
     export type CloseEvent = (componentItem: ComponentItem) => void;
     /** @internal */

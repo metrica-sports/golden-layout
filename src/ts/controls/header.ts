@@ -124,7 +124,7 @@ export class Header extends EventEmitter {
         super();
 
         this._tabsContainer = new TabsContainer(this._layoutManager,
-            (item) => this.handleTabInitiatedComponentMoreOptionsEvent(item),
+            (event, item) => this.handleTabInitiatedComponentMoreOptionsEvent(event, item),
             (item) => this.handleTabInitiatedComponentRemoveEvent(item),
             (item) => this.handleTabInitiatedComponentFocusEvent(item),
             (x, y, dragListener, item) => this.handleTabInitiatedDragStartEvent(x, y, dragListener, item),
@@ -345,12 +345,12 @@ export class Header extends EventEmitter {
     }
 
     /** @internal */
-    private handleTabInitiatedComponentMoreOptionsEvent(componentItem: ComponentItem) {
+    private handleTabInitiatedComponentMoreOptionsEvent(event: MouseEvent | TouchEvent, componentItem: ComponentItem) {
         if (this._canMoreOptionsComponent) {
             if (this._componentMoreOptionsEvent === undefined) {
                 throw new UnexpectedUndefinedError('HHTCE22294');
             } else {
-                this._componentMoreOptionsEvent(componentItem);
+                this._componentMoreOptionsEvent(event, componentItem);
             }
         }
     }
@@ -477,7 +477,7 @@ export namespace Header {
     /** @internal */
     export type TouchStartEvent = (this: void, ev: TouchEvent) => void;
     /** @internal */
-    export type ComponentMoreOptionsEvent = (this: void, componentItem: ComponentItem) => void;
+    export type ComponentMoreOptionsEvent = (this: void, event: MouseEvent | TouchEvent, componentItem: ComponentItem) => void;
     /** @internal */
     export type ComponentRemoveEvent = (this: void, componentItem: ComponentItem) => void;
     /** @internal */
