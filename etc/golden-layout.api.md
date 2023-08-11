@@ -673,7 +673,6 @@ export class Header extends EventEmitter {
     constructor(
     _layoutManager: LayoutManager,
     _parent: Stack, settings: Header.Settings,
-    _configMoreOptions: boolean,
     _configClosable: boolean,
     _getActiveComponentItemEvent: Header.GetActiveComponentItemEvent, closeEvent: Header.CloseEvent,
     _popoutEvent: Header.PopoutEvent | undefined,
