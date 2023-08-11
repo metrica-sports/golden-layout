@@ -98,8 +98,6 @@ export class Header extends EventEmitter {
         private _parent: Stack,
         settings: Header.Settings,
         /** @internal */
-        private readonly _configMoreOptions: boolean,
-        /** @internal */
         private readonly _configClosable: boolean,
         /** @internal */
         private _getActiveComponentItemEvent: Header.GetActiveComponentItemEvent,
@@ -144,7 +142,6 @@ export class Header extends EventEmitter {
         this._tabDropdownLabel = settings.tabDropdownLabel;
         this.setSide(settings.side);
 
-        this._canMoreOptionsComponent = this._configMoreOptions;
         this._canRemoveComponent = this._configClosable;
 
         this._element = document.createElement('section');
@@ -346,12 +343,10 @@ export class Header extends EventEmitter {
 
     /** @internal */
     private handleTabInitiatedComponentMoreOptionsEvent(event: MouseEvent | TouchEvent, componentItem: ComponentItem) {
-        if (this._canMoreOptionsComponent) {
-            if (this._componentMoreOptionsEvent === undefined) {
-                throw new UnexpectedUndefinedError('HHTCE22294');
-            } else {
-                this._componentMoreOptionsEvent(event, componentItem);
-            }
+        if (this._componentMoreOptionsEvent === undefined) {
+            throw new UnexpectedUndefinedError('HHTCE22294');
+        } else {
+            this._componentMoreOptionsEvent(event, componentItem);
         }
     }
 

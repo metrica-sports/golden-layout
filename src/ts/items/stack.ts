@@ -110,7 +110,6 @@ export class Stack extends ComponentParentableItem {
         this._header = new Header(layoutManager,
             this,
             headerSettings,
-            config.hasMoreOptions,
             config.isClosable && close !== false,
             () => this.getActiveComponentItem(),
             () => this.remove(),
