@@ -712,6 +712,8 @@ export class Header extends EventEmitter {
     // @internal
     setRowColumnClosable(value: boolean): void;
     // @internal (undocumented)
+    setShow(value: boolean): void;
+    // @internal (undocumented)
     setSide(value: Side): void;
     // (undocumented)
     get show(): boolean;
@@ -1873,8 +1875,7 @@ export class Stack extends ComponentParentableItem {
     newItem(itemConfig: ComponentItemConfig, index?: number): ContentItem;
     // @internal
     onDrop(contentItem: ContentItem, area: ContentItem.Area): void;
-    // @internal
-    positionHeader(position: Side): void;
+    positionHeader(position: false | Side): false | Side;
     // (undocumented)
     removeChild(contentItem: ContentItem, keepChild: boolean): void;
     // (undocumented)

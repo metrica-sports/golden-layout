@@ -24,7 +24,7 @@ export class Header extends EventEmitter {
     private readonly _controlsContainerElement: HTMLElement;
 
     /** @internal */
-    private readonly _show: boolean;
+    private _show: boolean;
     /** @internal */
     private readonly _popoutEnabled: boolean;
     /** @internal */
@@ -232,6 +232,11 @@ export class Header extends EventEmitter {
     processActiveComponentChanged(newActiveComponentItem: ComponentItem): void {
         this._tabsContainer.processActiveComponentChanged(newActiveComponentItem);
         this.updateTabSizes();
+    }
+
+    /** @internal */
+    setShow(value: boolean): void {
+        this._show = value;
     }
 
     /** @internal */
