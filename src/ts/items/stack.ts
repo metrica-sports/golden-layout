@@ -697,14 +697,24 @@ export class Stack extends ComponentParentableItem {
      * @param position -
      *
      * @returns previous header position
-     * @internal
      */
-    positionHeader(position: Side): void {
-        if (this._header.side !== position) {
-            this._header.setSide(position);
+    positionHeader(position: false | Side): false | Side {
+        const previousShow = this._header.show;
+        const previousSide = this._header.side;
+
+        if ((!previousShow && position !== false) || previousSide !== position) {
+            if (position === false) {
+                this._header.setShow(false);
+            } else {
+                this._header.setShow(true);
+                this._header.setSide(position);
+            }
+
             this._headerSideChanged = true;
             this.setupHeaderPosition();
         }
+
+        return previousShow === false ? false : previousSide;
     }
 
     /** @internal */
